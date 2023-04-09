@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+  
+resources:
+- ../../base
+- envs
+
+  
+patches:
+- path: ./patches/ingress-patch.yaml
+  target:
+    group: networking.k8s.io
+    kind: Ingress
+    version: v1
+- path: ./patches/deployment-patch.yaml
+  target:
+    kind: Deployment
+    version: v1
+- path: ./patches/service-patch.yaml
+  target:
+    kind: Service
+    name: tasksappui-svc
+    version: v1
+
+images:
+- name: developementregistry.azurecr.io/devops-frontend   #change this to your docker registry
+  newTag: ab5894fc
